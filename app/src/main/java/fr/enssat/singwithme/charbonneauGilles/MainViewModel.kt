@@ -37,11 +37,17 @@ class MainViewModel : ViewModel() {
     private val _progress = MutableLiveData<Float>()
     val progress: LiveData<Float> get() = _progress
 
+    private val _currentProgress = MutableLiveData<Int>()
+    val currentProgress: LiveData<Int> get() = _currentProgress
+
     private val _songs = MutableLiveData<List<Song>>()
     val songs: LiveData<List<Song>> get() = _songs
 
     private val _selectedSong = MutableLiveData<Song?>()
     val selectedSong: LiveData<Song?> get() = _selectedSong
+
+    private val _errorMessage = MutableLiveData<String?>()
+    val errorMessage: LiveData<String?> get() = _errorMessage
 
     fun downloadAndParseMarkdown(url: String) {
         viewModelScope.launch {
@@ -56,6 +62,7 @@ class MainViewModel : ViewModel() {
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                _errorMessage.value = "Failed to download markdown file: ${e.message}"
             }
         }
     }
@@ -69,11 +76,12 @@ class MainViewModel : ViewModel() {
                 _mp3FileUri.value = mp3FileUri
             } catch (e: Exception) {
                 e.printStackTrace()
+                _errorMessage.value = "Failed to download MP3 file: ${e.message}"
             }
         }
     }
 
-    fun loadSongs(url: String) {
+    fun loadSongs(url: String, context: Context) {
         viewModelScope.launch {
             try {
                 val json = withContext(Dispatchers.IO) {
@@ -82,9 +90,17 @@ class MainViewModel : ViewModel() {
                 if (json != null) {
                     val songs = parseSongs(json)
                     _songs.value = songs
+                    logParsedSongs(songs)
+
+                    // Select and play the default song
+                    val defaultSong = songs.find { it.name == "Creep" }
+                    if (defaultSong != null) {
+                        selectSong(defaultSong, context)
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                _errorMessage.value = "Failed to load songs: ${e.message}"
             }
         }
     }
@@ -189,6 +205,12 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    private fun logParsedSongs(songs: List<Song>) {
+        for (song in songs) {
+            Log.d("ParsedSongs", "Name: ${song.name}, Artist: ${song.artist}, Locked: ${song.locked}, Path: ${song.path}")
+        }
+    }
+
     fun updateCurrentLyric(lyric: String) {
         _currentLyric.value = lyric
     }
@@ -197,8 +219,10 @@ class MainViewModel : ViewModel() {
         if (duration > 0) {
             val progress = (currentTime.toFloat() / duration.toFloat())
             _progress.value = progress
+            _currentProgress.value = currentTime
         } else {
             _progress.value = 0f
+            _currentProgress.value = 0
         }
     }
 }

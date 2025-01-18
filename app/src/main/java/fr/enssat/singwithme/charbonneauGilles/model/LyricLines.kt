@@ -18,8 +18,8 @@ fun parseMarkdown(markdown: String): List<LyricLine> {
     val matcher = pattern.matcher(htmlContent)
 
     while (matcher.find()) {
-        val timecode = matcher.group(1).trim()
-        val lyric = matcher.group(2).trim()
+        val timecode = matcher.group(1)?.trim() ?: ""
+        val lyric = matcher.group(2)?.trim() ?: ""
         lyricLines.add(LyricLine(timecode, lyric))
     }
 

@@ -11,18 +11,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
-import fr.enssat.singwithme.charbonneauGilles.model.Song
 import fr.enssat.singwithme.charbonneauGilles.ui.theme.SingWithMeTheme
 
 class MainActivity : ComponentActivity() {
@@ -31,6 +34,7 @@ class MainActivity : ComponentActivity() {
     private var handler: Handler? = null
     private var runnable: Runnable? = null
     private var isPlaying = false
+    private var isPaused = false
     private lateinit var mainViewModel: MainViewModel
     private var currentLyricIndex = -1
 
@@ -43,13 +47,11 @@ class MainActivity : ComponentActivity() {
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
                     KaraokeScreen(
                         viewModel = mainViewModel,
-                        onPlayPauseClick = {
-                            if (isPlaying) {
-                                pauseKaraoke()
-                            } else {
-                                startKaraoke()
-                            }
-                            isPlaying = !isPlaying
+                        onPlayClick = {
+                            startKaraoke()
+                        },
+                        onPauseClick = {
+                            pauseKaraoke()
                         },
                         onResetClick = {
                             resetKaraoke()
@@ -61,13 +63,19 @@ class MainActivity : ComponentActivity() {
         }
 
         val songsUrl = "https://gcpa-enssat-24-25.s3.eu-west-3.amazonaws.com/playlist.json"
-        mainViewModel.loadSongs(songsUrl)
+        mainViewModel.loadSongs(songsUrl, this)
     }
 
     private fun startKaraoke() {
         mainViewModel.mp3FileUri.observe(this) { mp3FileUri ->
             if (mp3FileUri != null) {
-                mediaPlayer = MediaPlayer.create(this, mp3FileUri)
+                if (mediaPlayer == null) {
+                    mediaPlayer = MediaPlayer.create(this, mp3FileUri)
+                }
+                if (isPaused) {
+                    mediaPlayer?.seekTo(mainViewModel.currentProgress.value?.toInt() ?: 0)
+                    isPaused = false
+                }
                 mediaPlayer?.start()
 
                 if (handler == null) {
@@ -98,13 +106,16 @@ class MainActivity : ComponentActivity() {
                     }
                 }
                 handler?.post(runnable!!)
+                isPlaying = true
             }
         }
     }
 
     private fun pauseKaraoke() {
         mediaPlayer?.pause()
+        isPaused = true
         runnable?.let { handler?.removeCallbacks(it) }
+        isPlaying = false
     }
 
     private fun resetKaraoke() {
@@ -115,6 +126,7 @@ class MainActivity : ComponentActivity() {
         handler = null
         runnable = null
         isPlaying = false
+        isPaused = false
         currentLyricIndex = -1
         mainViewModel.updateCurrentLyric("")
         mainViewModel.updateProgress(0, 0)
@@ -124,6 +136,7 @@ class MainActivity : ComponentActivity() {
         super.onPause()
         mediaPlayer?.pause()
         runnable?.let { handler?.removeCallbacks(it) }
+        isPaused = true
     }
 
     override fun onResume() {
@@ -182,14 +195,16 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun KaraokeScreen(
     viewModel: MainViewModel,
-    onPlayPauseClick: () -> Unit,
+    onPlayClick: () -> Unit,
+    onPauseClick: () -> Unit,
     onResetClick: () -> Unit,
     isPlaying: Boolean
 ) {
     val currentLyric by viewModel.currentLyric.observeAsState("")
     val progress by viewModel.progress.observeAsState(0f)
     val songs by viewModel.songs.observeAsState(emptyList())
-    val selectedSong by viewModel.selectedSong.observeAsState<Song?>()
+    val selectedSong by viewModel.selectedSong.observeAsState()
+    val errorMessage by viewModel.errorMessage.observeAsState()
 
     var expanded by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -257,6 +272,17 @@ fun KaraokeScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        if (errorMessage != null) {
+            Text(
+                text = errorMessage!!,
+                color = MaterialTheme.colorScheme.error,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            )
+        }
+
         Text(
             text = currentLyric,
             fontSize = 24.sp,
@@ -281,39 +307,53 @@ fun KaraokeScreen(
                 .padding(bottom = 16.dp),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            Button(
-                onClick = onPlayPauseClick,
+            IconButton(
+                onClick = onPlayClick,
                 modifier = Modifier
                     .weight(1f)
                     .height(56.dp),
-                colors = ButtonDefaults.buttonColors(
-                    if (isPlaying) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
+                colors = IconButtonDefaults.iconButtonColors(
+                    MaterialTheme.colorScheme.primary
                 )
             ) {
-                Text(
-                    text = if (isPlaying) "Pause" else "Play",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
+                Icon(
+                    imageVector = Icons.Default.PlayArrow,
+                    contentDescription = "Play",
+                    tint = Color.White
                 )
             }
 
-            Button(
+            IconButton(
+                onClick = onPauseClick,
+                modifier = Modifier
+                    .weight(1f)
+                    .height(56.dp),
+                colors = IconButtonDefaults.iconButtonColors(
+                    MaterialTheme.colorScheme.secondary
+                )
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_pause), // Custom play icon
+                    contentDescription = "Play",
+                    tint = Color.White
+                )
+            }
+
+            IconButton(
                 onClick = onResetClick,
                 modifier = Modifier
                     .weight(1f)
                     .height(56.dp),
-                colors = ButtonDefaults.buttonColors(
-                    MaterialTheme.colorScheme.secondary
+                colors = IconButtonDefaults.iconButtonColors(
+                    MaterialTheme.colorScheme.error
                 )
             ) {
-                Text(
-                    text = "Reset",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
+                Icon(
+                    imageVector = Icons.Default.Refresh,
+                    contentDescription = "Reset",
+                    tint = Color.White
                 )
             }
         }
     }
 }
-
-

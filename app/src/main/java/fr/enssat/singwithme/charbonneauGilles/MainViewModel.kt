@@ -1,4 +1,4 @@
-package fr.enssat.singwithme.CharbonneauGilles
+package fr.enssat.singwithme.charbonneauGilles
 
 import android.content.ContentValues
 import android.content.Context
@@ -11,10 +11,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import fr.enssat.singwithme.CharbonneauGilles.model.LyricLine
-import fr.enssat.singwithme.CharbonneauGilles.model.Song
-import fr.enssat.singwithme.CharbonneauGilles.model.parseMarkdown
-import fr.enssat.singwithme.CharbonneauGilles.model.parseSongs
+import fr.enssat.singwithme.charbonneauGilles.model.LyricLine
+import fr.enssat.singwithme.charbonneauGilles.model.Song
+import fr.enssat.singwithme.charbonneauGilles.model.parseMarkdown
+import fr.enssat.singwithme.charbonneauGilles.model.parseSongs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

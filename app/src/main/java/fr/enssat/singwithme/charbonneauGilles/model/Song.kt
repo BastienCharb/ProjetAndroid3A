@@ -1,4 +1,4 @@
-package fr.enssat.singwithme.CharbonneauGilles.model
+package fr.enssat.singwithme.charbonneauGilles.model
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken

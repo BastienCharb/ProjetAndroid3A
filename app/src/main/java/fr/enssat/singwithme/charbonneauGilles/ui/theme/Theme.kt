@@ -1,4 +1,4 @@
-package fr.enssat.singwithme.CharbonneauGilles.ui.theme
+package fr.enssat.singwithme.charbonneauGilles.ui.theme
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -53,7 +53,7 @@ fun SingWithMeTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = kotlin.text.Typography,
+        typography = Typography,
         content = content
     )
 }

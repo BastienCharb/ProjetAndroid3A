@@ -1,4 +1,4 @@
-package fr.enssat.singwithme.CharbonneauGilles
+package fr.enssat.singwithme.charbonneauGilles
 
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -22,8 +22,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModelProvider
-import fr.enssat.singwithme.CharbonneauGilles.model.Song
-import fr.enssat.singwithme.CharbonneauGilles.ui.theme.SingWithMeTheme
+import fr.enssat.singwithme.charbonneauGilles.model.Song
+import fr.enssat.singwithme.charbonneauGilles.ui.theme.SingWithMeTheme
 
 class MainActivity : ComponentActivity() {
 

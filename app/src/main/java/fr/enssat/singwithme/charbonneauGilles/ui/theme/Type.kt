@@ -1,4 +1,4 @@
-package fr.enssat.singwithme.CharbonneauGilles.ui.theme
+package fr.enssat.singwithme.charbonneauGilles.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

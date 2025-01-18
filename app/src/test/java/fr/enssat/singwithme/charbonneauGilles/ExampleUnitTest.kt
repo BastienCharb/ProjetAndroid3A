@@ -1,4 +1,4 @@
-package fr.enssat.singwithme.CharbonneauGilles
+package fr.enssat.singwithme.charbonneauGilles
 
 import org.junit.Test
 

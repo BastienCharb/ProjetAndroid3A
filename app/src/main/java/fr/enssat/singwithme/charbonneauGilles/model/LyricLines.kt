@@ -1,4 +1,4 @@
-package fr.enssat.singwithme.CharbonneauGilles.model
+package fr.enssat.singwithme.charbonneauGilles.model
 
 import org.commonmark.node.Node
 import org.commonmark.parser.Parser

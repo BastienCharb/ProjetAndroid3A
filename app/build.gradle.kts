@@ -62,4 +62,10 @@ dependencies {
     implementation(libs.commonmark)
     implementation(libs.gson)
 
+    androidTestImplementation (libs.androidx.rules)
+    androidTestImplementation (libs.androidx.runner)
+    testImplementation (libs.mockito.core)
+    testImplementation (libs.mockito.junit.jupiter)
+    testImplementation (libs.kotlinx.coroutines.test)
+    testImplementation (libs.androidx.core.testing)
 }

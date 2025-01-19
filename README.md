@@ -1,24 +1,39 @@
-# SingWithMe
+# SingWithMe Karaoke App
 
-SingWithMe is an Android application that allows users to sing along with their favorite songs while displaying lyrics in real-time. The app features a karaoke-style interface where users can select songs, play them, and see the lyrics synchronized with the music.
+## Project Overview
 
-## Features
+This repository contains the Android application for the SingWithMe Karaoke project. The application allows users to sing along with their favorite songs while displaying the lyrics in real-time. The lyrics change color as the song progresses, providing a dynamic karaoke experience.
 
-- **Song Selection**: Users can browse and select songs from a playlist.
-- **Real-time Lyrics**: Lyrics are displayed in sync with the music playback.
-- **Play/Pause/Reset**: Controls to play, pause, and reset the song.
-- **Custom Icons**: Custom icons for play, pause, and reset buttons.
+## Table of Contents
 
-## Setup
+1. [Application](#application)
+2. [Build System](#build-system)
+3. [Documentation](#documentation)
+4. [APK](#apk)
+5. [Grading Criteria](#grading-criteria)
+6. [Contributors](#contributors)
+7. [License](#license)
 
-### Prerequisites
+## Application
 
-- Android Studio
-- JDK 11
-- Gradle
+The package ID of the application is: `fr.enssat.singwithme.charbonneauGilles`.
 
-### Clone the Repository
+### Features
 
-```sh
-git clone https://github.com/yourusername/SingWithMe.git
-cd SingWithMe
+- **Real-time Lyrics Display**: Lyrics are displayed in real-time as the song progresses.
+- **Dynamic Color Change**: Lyrics change color from white to red as the current timestamp progresses.
+- **Song Selection**: Users can select songs from a list.
+- **Media Controls**: Play, pause, and reset controls for the media player.
+
+### Screenshots
+
+![Screenshot 1](Capture1.png)
+![Screenshot 2](Capture2.png)
+
+## Build System
+
+All necessary files for building the application are included in this repository. To build the application, follow these steps:
+
+1. **Clone the Repository**:
+   ```sh
+   git clone https://github.com/your-username/singwithme.git

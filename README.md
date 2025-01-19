@@ -1,42 +1,41 @@
-# SingWithMe Karaoke App
+# Application Karaoké SingWithMe
 
-## Project Overview
+## Aperçu du Projet
 
-This repository contains the Android application for the SingWithMe Karaoke project. The application allows users to sing along with their favorite songs while displaying the lyrics in real-time. The lyrics change color as the song progresses, providing a dynamic karaoke experience.
+Ce dépôt contient l'application Android pour le projet Karaoké SingWithMe. L'application permet aux utilisateurs de chanter en karaoké avec leurs chansons préférées tout en affichant les paroles en temps réel. Les paroles changent de couleur au fur et à mesure que la chanson progresse, offrant une expérience de karaoké dynamique.
 
-## Table of Contents
+## Table des Matières
 
 1. [Application](#application)
-2. [Features](#Features)
+2. [Fonctionnalités](#fonctionnalités)
 3. [Documentation](#documentation)
 4. [APK](#apk)
 
-
 ## Application
 
-The package ID of the application is: `fr.enssat.singwithme.charbonneauGilles`.
-A detailled documentation can be found [here](Documentation.md).
+L'ID du package de l'application est : `fr.enssat.singwithme.charbonneauGilles`.
+Une documentation détaillée peut être trouvée [ici](Documentation.md).
 
-### Features
+### Fonctionnalités
 
-- **Real-time Lyrics Display**: Lyrics are displayed in real-time as the song progresses.
-- **Dynamic Color Change**: Lyrics change color from white to red as the current timestamp progresses.
-- **Song Selection**: Users can select songs from a list.
-- **Media Controls**: Play, pause, and reset controls for the media player.
+- **Affichage des Paroles en Temps Réel** : Les paroles sont affichées en temps réel au fur et à mesure que la chanson progresse.
+- **Changement de Couleur Dynamique** : Les paroles changent de couleur du blanc au rouge au fur et à mesure que le timestamp actuel progresse.
+- **Sélection de Chanson** : Les utilisateurs peuvent sélectionner des chansons à partir d'une liste.
+- **Contrôles Média** : Contrôles de lecture, pause et réinitialisation pour le lecteur multimédia.
 
-### Screenshots
+### Captures d'Écran
 
-<img src="Capture1.png" alt="Screenshot" width="250"/>
-<img src="Capture2.png" alt="Screenshot" width="250"/>
-
+<img src="Capture1.png" alt="Capture d'Écran" width="250"/>
+<img src="Capture2.png" alt="Capture d'Écran" width="250"/>
 
 ### APK
- The link [here](app/singwithme.apk) point to the `singwithme.apk` file. You can install on your phone the app as it is in the code on this repo. 
 
-## Build System
+Le lien [ici](app/singwithme.apk) pointe vers le fichier `singwithme.apk`. Vous pouvez installer l'application sur votre téléphone telle qu'elle est dans le code de ce dépôt.
 
-All necessary files for building the application are included in this repository. 
+## Système de Build
 
- **Clone the Repository**:
-   ```sh
-   git clone https://github.com/your-username/singwithme.git
+Tous les fichiers nécessaires pour construire l'application sont inclus dans ce dépôt.
+
+**Cloner le Dépôt** :
+```sh
+git clone https://github.com/votre-nom-utilisateur/singwithme.git

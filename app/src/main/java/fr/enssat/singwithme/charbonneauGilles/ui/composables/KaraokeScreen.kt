@@ -37,8 +37,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import fr.enssat.singwithme.charbonneauGilles.MainViewModel
@@ -52,11 +55,13 @@ fun KaraokeScreen(
     onResetClick: () -> Unit,
     isPlaying: Boolean
 ) {
-    val currentLyric by viewModel.currentLyric.observeAsState("")
     val progress by viewModel.progress.observeAsState(0f)
     val songs by viewModel.songs.observeAsState(emptyList())
     val selectedSong by viewModel.selectedSong.observeAsState()
     val errorMessage by viewModel.errorMessage.observeAsState()
+    val lyricLines by viewModel.lyricLines.observeAsState(emptyList())
+    val currentLyricIndex by viewModel.currentLyricIndex.observeAsState(-1)
+    val currentCharIndex by viewModel.currentCharIndex.observeAsState(0)
 
     var expanded by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -135,15 +140,27 @@ fun KaraokeScreen(
             )
         }
 
-        Text(
-            text = currentLyric,
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
-        )
+        if (currentLyricIndex >= 0 && currentLyricIndex < lyricLines.size) {
+            val currentLyricLine = lyricLines[currentLyricIndex]
+            val lyrics = currentLyricLine.lyric
+            val highlightedLyrics = buildAnnotatedString {
+                for (i in lyrics.indices) {
+                    val color = if (i <= currentCharIndex) Color.Red else Color.White
+                    withStyle(style = SpanStyle(color = color)) {
+                        append(lyrics[i])
+                    }
+                }
+            }
+            Text(
+                text = highlightedLyrics,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            )
+        }
 
         LinearProgressIndicator(
             progress = { progress },

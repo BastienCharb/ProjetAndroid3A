@@ -6,8 +6,9 @@ import android.os.Handler
 import android.os.Looper
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import fr.enssat.singwithme.charbonneauGilles.ui.composables.KaraokeScreen
@@ -78,7 +79,10 @@ class MainActivity : ComponentActivity() {
                                         if (i != currentLyricIndex) {
                                             currentLyricIndex = i
                                             mainViewModel.updateCurrentLyric(lyricLines[i].lyric)
+                                            mainViewModel.updateCurrentLyricIndex(i)
                                         }
+                                        val charIndex = (currentTime - lyricLines[i].timecode.toTimeMillis()) / 100
+                                        mainViewModel.updateCurrentCharIndex(charIndex)
                                     } else {
                                         break
                                     }
@@ -94,6 +98,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
 
     private fun pauseKaraoke() {
         mediaPlayer?.pause()

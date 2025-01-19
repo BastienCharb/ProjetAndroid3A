@@ -49,7 +49,14 @@ class MainViewModel : ViewModel() {
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
 
-    fun downloadAndParseMarkdown(url: String) {
+    private val _currentLyricIndex = MutableLiveData<Int>()
+    val currentLyricIndex: LiveData<Int> get() = _currentLyricIndex
+
+    private val _currentCharIndex = MutableLiveData<Int>()
+    val currentCharIndex: LiveData<Int> get() = _currentCharIndex
+
+
+    private fun downloadAndParseMarkdown(url: String) {
         viewModelScope.launch {
             try {
                 val markdownContent = withContext(Dispatchers.IO) {
@@ -67,7 +74,7 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun downloadMp3File(url: String, context: Context) {
+    private fun downloadMp3File(url: String, context: Context) {
         viewModelScope.launch {
             try {
                 val mp3FileUri = withContext(Dispatchers.IO) {
@@ -92,7 +99,6 @@ class MainViewModel : ViewModel() {
                     _songs.value = songs
                     logParsedSongs(songs)
 
-                    // Select and play the default song
                     val defaultSong = songs.find { it.name == "Creep" }
                     if (defaultSong != null) {
                         selectSong(defaultSong, context)
@@ -213,6 +219,14 @@ class MainViewModel : ViewModel() {
 
     fun updateCurrentLyric(lyric: String) {
         _currentLyric.value = lyric
+    }
+
+    fun updateCurrentLyricIndex(index: Int) {
+        _currentLyricIndex.value = index
+    }
+
+    fun updateCurrentCharIndex(index: Int) {
+        _currentCharIndex.value = index
     }
 
     fun updateProgress(currentTime: Int, duration: Int) {

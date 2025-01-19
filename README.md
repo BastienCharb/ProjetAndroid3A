@@ -7,16 +7,15 @@ This repository contains the Android application for the SingWithMe Karaoke proj
 ## Table of Contents
 
 1. [Application](#application)
-2. [Build System](#build-system)
+2. [Features](#Features)
 3. [Documentation](#documentation)
 4. [APK](#apk)
-5. [Grading Criteria](#grading-criteria)
-6. [Contributors](#contributors)
-7. [License](#license)
+
 
 ## Application
 
 The package ID of the application is: `fr.enssat.singwithme.charbonneauGilles`.
+A detailled documentation can be found [here](Documentation.md).
 
 ### Features
 
@@ -27,13 +26,17 @@ The package ID of the application is: `fr.enssat.singwithme.charbonneauGilles`.
 
 ### Screenshots
 
-![Screenshot 1](Capture1.png)
-![Screenshot 2](Capture2.png)
+<img src="Capture1.png" alt="Screenshot" width="250"/>
+<img src="Capture2.png" alt="Screenshot" width="250"/>
+
+
+### APK
+ The link [here](app/singwithme.apk) point to the `singwithme.apk` file. You can install on your phone the app as it is in the code on this repo. 
 
 ## Build System
 
-All necessary files for building the application are included in this repository. To build the application, follow these steps:
+All necessary files for building the application are included in this repository. 
 
-1. **Clone the Repository**:
+ **Clone the Repository**:
    ```sh
    git clone https://github.com/your-username/singwithme.git
